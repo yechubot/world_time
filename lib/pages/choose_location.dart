@@ -6,8 +6,15 @@ class ChooseLocation extends StatefulWidget {
 }
 
 class _ChooseLocationState extends State<ChooseLocation> {
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {//runs only once when it starts
+    super.initState();
+    
+  }
+
+  @override
+  Widget build(BuildContext context) {// when data changed, build method is called
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(//뒤로가기 버튼 자동으로 생김..?
@@ -16,7 +23,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Text('choose location screen'),
+
     );
   }
 }
