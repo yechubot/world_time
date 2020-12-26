@@ -37,7 +37,7 @@ class _LoadingState extends State<Loading> {
           child:SpinKitCircle(
             color: Colors.white,
             size: 80.0,
-          );
+          ),
       ),
     );
   }
