@@ -7,6 +7,7 @@ class WorldTime {
   String time; // the time in that location
   String flag; // url to an asset flag icon
   String url; // location url for api endpoint
+  bool isDaytime; // true or false if daytime or not
 
   //네임 파라미터
   WorldTime({this.location, this.flag, this.url});
@@ -25,13 +26,14 @@ class WorldTime {
 
       String datetime = data['datetime'];
       String offset = data['utc_offset'].substring(1, 3);
-      print(offset);
+      //print(offset);
 
       DateTime now = DateTime.parse(datetime);
       now = now.add(Duration(hours: int.parse(offset)));
 
       //set the time property
       // 예쁜 포맷을 위해 intl 사용
+      isDaytime = now.hour > 6 && now.hour < 20 ? true : false; // if 지금 시간 6am 보다 크고 8pm 전이면 데이타임 -> if is true return true : if not false
       time = DateFormat.jm().format(now);
     } catch (e) {
       //error msg
