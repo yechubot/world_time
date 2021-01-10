@@ -19,14 +19,25 @@ class _ChooseLocationState extends State<ChooseLocation> {
     WorldTime(url: 'Asia/Jakarta', location: 'Jakarta', flag: 'indonesia.png'),
   ];
 
-  //list view builder를 사용하여 하나씩 뽑기 이전에는 map을 이용했음, 이는 또 다른 방법
+  void updateTime(index) async{ // index에 따라 시간 업뎃
+    WorldTime instance = locations[index];
+    await instance.getTime();
+    // navigate to home screen
+    Navigator.pop(context,{ // 밑에 있는 거 pop하는 거 --> 밑에 있는거 그대로 넘겨버림
+      'location': instance.location,
+      'time': instance.time,
+      'flag': instance.flag,
+      'isDaytime': instance.isDaytime,
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    // when data changed, build method is called
+
     return Scaffold(
         backgroundColor: Colors.grey[200],
-        appBar: AppBar( //뒤로가기 버튼 자동으로 생김..?
+        appBar: AppBar(
           backgroundColor: Colors.blue[900],
           title: Text('choose a location'),
           centerTitle: true,
@@ -40,7 +51,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
               child: Card(
                 child:ListTile(
                   onTap: (){
-
+                    updateTime(index);
                   },
                   title:Text(locations[index].location),
                   leading: CircleAvatar(

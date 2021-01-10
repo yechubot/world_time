@@ -6,13 +6,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   Map data = {};
 
   @override
   Widget build(BuildContext context) {
     //처음 빌드
     //world time class에서 설정한 argument 받도록 하기, context가 필요하기 때문에 build 안에 작성한다.
-    data = ModalRoute.of(context).settings.arguments;
+    data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
+    // setState 이 업뎃되면 build가 다시 실행되는데 이때 오버라이드 되지 않게
+    // 데이터 있으면 데이터 그래도 나오게 한다.
+
     print(data);
 
     // set background
@@ -34,8 +38,17 @@ class _HomeState extends State<Home> {
             child: Column(
               children: <Widget>[
                 FlatButton.icon(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/location');
+                    onPressed: () async{
+                      //뭐 받을지 아직 모르니까 dynamic
+                      dynamic result = await Navigator.pushNamed(context, '/location');
+                      setState((){
+                        data = {
+                          'time': result['time'],// navigator.pop에서 다 보냈으니까 받을 수 있음
+                          'location': result['location'],
+                          'isDaytime':result['isDaytime'],
+                          'flag':result['flag']
+                        };
+                      });
                     },
                     icon: Icon(
                         Icons.edit_location,
